@@ -1,4 +1,4 @@
-from .utils import weighted_m
+from .utils import weighted_m, save_gif
 
 import logging
 
@@ -109,7 +109,7 @@ def display_seq(img, centers):
   cv2.putText(img, "Right_foot", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.9, right_foot_color, 3)
 
 
-def process_sheet(sheet, redo=False):
+def process_sheet(sheet, redo=False, gif=False):
   for index, vid in sheet.iterrows():
     v = path + vid.Folder + vid.File
     p_in = v + '_POSE.json'
@@ -132,3 +132,6 @@ def process_sheet(sheet, redo=False):
 
       cv2.imwrite(p_out, img)
       logging.debug(f"Saved {p_out}.")
+
+      if gif:
+        save_gif(img, dict_centers, f'{v}_MOVE_SEQ.gif')

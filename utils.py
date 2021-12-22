@@ -1,8 +1,14 @@
+import copy
+import logging
+
 import gspread as gs
+import imageio
 import numpy as np
 import pandas as pd
 
-NUMBER_OF_SHEETS = 4
+from numpy.core.numeric import count_nonzero
+
+NUMBER_OF_SHEETS = 5
 
 left_hand = ["LEFT_THUMB.x", "LEFT_INDEX.x", "LEFT_PINKY.x",  "LEFT_WRIST.x", "LEFT_THUMB.y", "LEFT_INDEX.y", "LEFT_PINKY.y",  "LEFT_WRIST.y", "LEFT_THUMB.v", "LEFT_INDEX.v", "LEFT_PINKY.v",  "LEFT_WRIST.v"]
 right_hand = ["RIGHT_THUMB.x", "RIGHT_INDEX.x", "RIGHT_PINKY.x",  "RIGHT_WRIST.x", "RIGHT_THUMB.y", "RIGHT_INDEX.y", "RIGHT_PINKY.y",  "RIGHT_WRIST.y", "RIGHT_THUMB.v", "RIGHT_INDEX.v", "RIGHT_PINKY.v",  "RIGHT_WRIST.v"]
@@ -73,6 +79,78 @@ def weighted_m(x, w):
   sum_w = w.sum()
   num = np.multiply(x,w).sum()
   return (num/sum_w)
+
+def create_gif_arrow(img, centers):
+  frames = []
+  timeframe = []
+
+  frames.append(img)
+
+  frame_width = img.shape[1]
+  frame_height = img.shape[0]
+
+  scaled_centers = copy.deepcopy(centers)
+
+  move_order = []
+
+  for key, coord in scaled_centers.items():
+    for elem in coord:
+      elem[0][0] *= frame_width
+      elem[0][1] *= frame_height
+      move_order.append((key, elem[1]))
+
+  move_order.sort(key=lambda y: y[1])
+
+  members = ['left_hand', 'right_hand', 'left_foot', 'right_foot']
+  colors = {'left_hand': (0, 204, 204), 'right_hand':(0, 204, 0), 'left_foot': (255, 102, 102), 'right_foot':(76, 0, 153)}
+
+  img = add_legend(img, colors, members)
+
+  size = 30
+  thickness = 4
+  
+  img_base = img.copy()
+
+  count = dict(zip(members, [[0,0], [0,0], [0,0], [0,0]]))
+
+  for id, move in enumerate(move_order):
+    img = img_base.copy()
+
+    for member in members:
+      start = count[member][0]
+      end = count[member][1]
+      draw_last_moves(img, scaled_centers[member][start:end], colors[member])
+
+    member = move[0]
+
+    count[member][1] += 1 #add 1 to the end
+    start = count[member][0] #get start and end
+    end = count[member][1]
+    draw_last_moves(img, scaled_centers[member][end-1:end], colors[member])
+
+
+    if (count[member][1] > 1):
+      draw_arrow(img, scaled_centers[member][start:end], colors[member])
+      count[member][0] = count[member][1] - 1 #
+
+    frames.append(img)
+    timeframe.append(move[1])
+
+  return frames, timeframe
+
+def save_gif(img, dict_centers, p_out):
+  frames, timeframe = create_gif_arrow(img, dict_centers)
+  timeframe_scaled = [timeframe[i] - timeframe[i-1] for i in range(1,len(timeframe))] #get number of frame btween two moves
+  timeframe_scaled = [timeframe_scaled[i] if timeframe_scaled[i] < 60 else 60 for i in range(len(timeframe_scaled))]#cap the maximum duration bteween two move to two seconds
+  timeframe_scaled.insert(0, 30) #add boulder image without any move, at the beginning, for 1 sec
+  timeframe_scaled.append(60) #stay on last image for 2 sec
+  timeframe_scaled = list(np.divide(timeframe_scaled,30)) #divide by 30 to have speed of 0.5 (original 60fps)
+  logging.debug(f"Saving GIF file for {p_out}")
+  with imageio.get_writer(p_out, mode="I", duration = timeframe_scaled) as writer:
+      for idx, frame in enumerate(frames):
+          rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+          writer.append_data(rgb_frame)
+          logging.debug(f"Adding frame {idx+1} to GIF for {p_out}: ")
 
 def landmark_to_dict(results):
   dict_ = { "LEFT_FOOT_INDEX": {"x": results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_FOOT_INDEX].x,

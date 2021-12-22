@@ -15,6 +15,7 @@ def cli():
     parser.add_argument('--pose', help='to estimate the pose in the videos', action='store_true')
     parser.add_argument('--output_video', help='to output the videos with the pose estimation', action='store_true')
     parser.add_argument('--move', help='to compute the move sequence from the videos', action='store_true')
+    parser.add_argument('--gif', help='to save the move sequence as a GIF', action='store_true')
     parser.add_argument('--path', help='path of excel file with all the videos', default='boulder_problems.xlsx')
     parser.add_argument('--normal_screens', help='to grab screenshots on the non mediapipe videos, defaults to False', action='store_true', default=False)
     parser.add_argument('--redo_screens', help='to rerun the screengrabing on all videos', action='store_true')
@@ -57,7 +58,7 @@ def main():
 
         if args.move:
             logging.info("Move sequence generation...")
-            run_all(func=process_sheet, path=args.path, redo=args.redo_moves)
+            run_all(func=process_sheet, path=args.path, redo=args.redo_moves, gif=args.gif)
             logging.info("Move sequence generation done !")
         else:
             logging.info("Move sequence generation skipped !")
