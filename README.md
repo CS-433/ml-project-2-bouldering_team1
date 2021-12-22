@@ -20,7 +20,7 @@ The file structure to follow for the project to work out of the box is the follo
 ```
 ml-project-2-bouldering_team1
 │   boulder_problems.xlsx
-|   main.ipynb
+|   colab_notebook.ipynb
 |   move_sequence.py
 |   pose_estimation.py    
 │   README.md
