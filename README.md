@@ -8,11 +8,12 @@ We were pretty impressed with our results, when the climber is fully in the fram
 
 ## Prerequisites
 
-* `ffmpeg`
+* `ffmpeg` with `vidstab` to stabilize the videos.
 * `python` =~3.8
-* `mediapipe`
+* `mediapipe` to estimate the climbers' poses.
 * `numpy`
-* `scikit-learn`
+* `scikit-learn` to compute the clusters for the holds.
+* `imageio` for generating the GIF visualization.
 
 ## File structure
 
