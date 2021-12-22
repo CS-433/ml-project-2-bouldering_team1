@@ -78,6 +78,7 @@ For the computing the move sequence, we first check which extremity has not move
 * `--pose` to estimate the pose using mediapipe and generate json files containing the keypoints coordinates.
 * `--output_video` to output the videos with the pose estimation.
 * `--move` to generate the move sequence using the json files of the pose estimation.
+* `--gif` to save the move sequence as a GIF.
 * `--normal_screens` to grab screenshots on the non mediapipe videos, defaults to False.
 * `--redo_screens` to rerun the screengrabing on all videos.
 * `--redo_moves` to rerun the move sequence computations.
