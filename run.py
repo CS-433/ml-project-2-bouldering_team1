@@ -20,12 +20,17 @@ def cli():
     parser.add_argument('--normal_screens', help='to grab screenshots on the non mediapipe videos, defaults to False', action='store_true', default=False)
     parser.add_argument('--redo_screens', help='to rerun the screengrabing on all videos', action='store_true')
     parser.add_argument('--redo_moves', help='to rerun the move sequence computations on all videos', action='store_true')
+    parser.add_argument('--verbose', '-v', help='set the verbose level, -v for infos and -vv for debugging ',action='count', default=1)
 
     args = parser.parse_args()
     return args
 
 def main():
     args = cli()
+    args.verbose = 40 - (10*args.verbose) if args.verbose > 0 else 0
+
+    logging.basicConfig(level=args.verbose, format='%(asctime)s %(levelname)s: %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
 
     prep = args.stab or args.crop or args.screen
     if no_prep and prep:
