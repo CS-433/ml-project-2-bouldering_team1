@@ -8,7 +8,7 @@ We were pretty impressed with our results, when the climber is fully in the fram
 
 ## Prerequisites
 
-* `python` =~3.8
+* `python=~3.8` 
 * `numpy`
 * `ffmpeg` with `vidstab` to stabilize the videos.
 * `mediapipe` to estimate the climbers' poses.
