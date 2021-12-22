@@ -1,7 +1,12 @@
-# Bouldering problems analyzer
+# Move sequence detection on bouldering problems
 
-This project aims at identifying the holds of climbers in bouldering problems with just video input.
-It was originally written for Google Colab, with direct GDrive integration.
+## Abstract
+
+The goal of this project was to detect the move sequence of a boulder using bouldering videos.
+
+We were provided a dataset of videos. In this dataset, we first selected good videos and stabilised them. We then labeled all the usable videos for further preproccessing like cropping, cutting or taking a screenshot for visualization. Afterward, we ran a pose estimation algorithm in order to get the coordinates of the body parts of the climbers. We used this data to detect the moves of the boulder problem and we found the sequence using a clustering algorithm. Finally, we implemented some visualization functions to show our results.
+
+We were pretty impressed with our results, when the climber is fully in the frame, the program outputs the right move sequence. 
 
 ## Prerequisites
 
@@ -15,8 +20,9 @@ It was originally written for Google Colab, with direct GDrive integration.
 
 The file structure to follow for the project to work out of the box is the following :
 ```
-pyboulder
+ml-project-2-bouldering_team1
 │   boulder_problems.xlsx
+|   main.ipynb
 |   move_sequence.py
 |   pose_estimation.py    
 │   README.md
