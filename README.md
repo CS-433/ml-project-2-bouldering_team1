@@ -111,7 +111,7 @@ For the computing the move sequence, we first check which extremity has not move
 * `--normal_screens` to grab screenshots on the non mediapipe videos, defaults to False.
 * `--redo_screens` to rerun the screengrabing on all videos.
 * `--redo_moves` to rerun the move sequence computations.
-* `--verbose`, `-v` to set the verbose level, -v for infos and -vv for debugging.
+* `--verbose`, `-v` to set the verbose level, `-v` for infos and `-vv` for debugging.
 
 ## Output
 
