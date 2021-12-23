@@ -4,34 +4,10 @@ import re
 import subprocess
 
 #Functions to find unprocessed vids
-def find_rest_vids(path):
+def find_stab_vids(path, n_boulders):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-7]_.*$', up):
-      for inside in os.listdir(f'{path}{up}/'):
-        if len(inside) > 0 and os.path.isdir(f'{path}{up}/{inside}'):
-          for v in os.listdir(f'{path}{up}/{inside}'):
-            if re.search(r'(^IMG_.*.MOV$)', v):
-              res.append(f'{path}{up}/{inside}/{v}')
-
-  return res
-
-def find_rest_mp4(path):
-  res = []
-  for up in os.listdir(path):
-    if re.search(r'boulder_[1-7]_.*$', up):
-      for inside in os.listdir(f'{path}{up}/'):
-        if len(inside) > 0 and os.path.isdir(f'{path}{up}/{inside}'):
-          for v in os.listdir(f'{path}{up}/{inside}'):
-            if re.search(r'(^MOV_.*.mp4$)|((^.*.MP4$))', v):
-              res.append(f'{path}{up}/{inside}/{v}')
-
-  return res  
-
-def find_stab_vids(path):
-  res = []
-  for up in os.listdir(path):
-    if re.search(r'boulder_[1-7]_.*$', up):
+    if re.search(r'boulder_[1-' + n_boulders + r']_.*$', up):
       for inside in os.listdir(f'{path}{up}/'):
         if len(inside) > 0 and os.path.isdir(f'{path}{up}/{inside}'):
           for v in os.listdir(f'{path}{up}/{inside}'):
@@ -40,10 +16,10 @@ def find_stab_vids(path):
 
   return res
 
-def find_all_vids(path):
+def find_all_vids(path, n_boulders):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-7]_.*$', up):
+    if re.search(r'boulder_[1-' + n_boulders + r']_.*$', up):
       for inside in os.listdir(f'{path}{up}/'):
         if len(inside) > 0 and os.path.isdir(f'{path}{up}/{inside}'):
           for v in os.listdir(f'{path}{up}/{inside}'):
@@ -52,11 +28,9 @@ def find_all_vids(path):
 
   return res
 
-def find_unstab_vids(path):
-  all_vids = find_all_vids(path)
-  stab_vids = find_stab_vids(path)
-  print(all_vids)
-  print(stab_vids)
+def find_unstab_vids(path, n_boulders):
+  all_vids = find_all_vids(path, n_boulders)
+  stab_vids = find_stab_vids(path, n_boulders)
   non_stab_vids = list(set(all_vids) - set(stab_vids))
   left_vids = [v[:-9] for v in list(set([f'{v}_STAB.MOV' for v in non_stab_vids]) - set(stab_vids))]
   if len(left_vids) == 0:
@@ -65,11 +39,13 @@ def find_unstab_vids(path):
 
 
 #Used for stabilizing all the videos in a given list of paths (by default the still unprocessed vids)
-def stabilize(args, vid_list=None):
+def stabilize(args):
   path = args.path
+  n_boulders = args.n_boulders
+  vid_list = args.vid_list
 
   if vid_list is None:
-    vid_list = find_unstab_vids(path)
+    vid_list = find_unstab_vids(path, n_boulders)
     
   for v in vid_list:
     transform_command = ['ffmpeg', '-hide_banner', '-loglevel', 'error', '-i', f'{v}', '-vf', f'vidstabdetect=result={v}.trf', '-f', 'null', '-']

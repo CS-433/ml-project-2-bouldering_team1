@@ -100,6 +100,8 @@ For the computing the move sequence, we first check which extremity has not move
 * `--table_path` the path of the excel file, default is `boulder_problems`.
 * `--n_sheet` number of sheets to process in the excel file, default is 1.
 * `--path` the path of the climbing videos (the top folder, in our structure it would be `videos/`).
+* `--n_boulders` number of different boulders to stabilize (corresponds to the number of boulder folders in `videos/`), default is 7.
+* `--vid_list` optional list of videos to stabilize, default is `None`.
 * `--no_prep` skips all the preprocessing steps (stabilization, cropping and screengrabing).
 * `--stab` to stabilize all the unstabilized videos.
 * `--crop` to crop the time of the videos (according to the numbers in the excel sheet).
