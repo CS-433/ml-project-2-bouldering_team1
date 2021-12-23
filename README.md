@@ -97,6 +97,7 @@ After running everything, for each video we will end up having :
 * `[vid_file]_STAB.MOV_POSE.json` 
 * `[vid_file]_STAB.MOV_POSE.mp4` 
 * `[vid_file]_STAB.MOV_MOVE_SEQ.jpg`
+* `[vid_file]_STAB.MOV_MOVE_SEQ.gif`
 
 ## Example commands
 
