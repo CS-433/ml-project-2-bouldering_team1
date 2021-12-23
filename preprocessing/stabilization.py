@@ -7,7 +7,7 @@ import subprocess
 def find_rest_vids(path):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[5-6]_.*$', up):
+    if re.search(r'boulder_[1-7]_.*$', up):
       for inside in os.listdir(up):
         if len(inside) > 0 and os.path.isdir(f'{up}/{inside}'):
           for v in os.listdir(f'{up}/{inside}'):
@@ -19,7 +19,7 @@ def find_rest_vids(path):
 def find_rest_mp4(path):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-6]_.*$', up):
+    if re.search(r'boulder_[1-7]_.*$', up):
       for inside in os.listdir(up):
         if len(inside) > 0 and os.path.isdir(f'{up}/{inside}'):
           for v in os.listdir(f'{up}/{inside}'):
@@ -31,7 +31,7 @@ def find_rest_mp4(path):
 def find_stab_vids(path):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-6]_.*$', up):
+    if re.search(r'boulder_[1-7]_.*$', up):
       for inside in os.listdir(up):
         if len(inside) > 0 and os.path.isdir(f'{up}/{inside}'):
           for v in os.listdir(f'{up}/{inside}'):
@@ -43,7 +43,7 @@ def find_stab_vids(path):
 def find_all_vids(path):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-6]_.*$', up):
+    if re.search(r'boulder_[1-7]_.*$', up):
       for inside in os.listdir(up):
         if len(inside) > 0 and os.path.isdir(f'{up}/{inside}'):
           for v in os.listdir(f'{up}/{inside}'):
@@ -63,7 +63,9 @@ def find_unstab_vids(path):
 
 
 #Used for stabilizing all the videos in a given list of paths (by default the still unprocessed vids)
-def stabilize(vid_list=None):
+def stabilize(args, vid_list=None):
+  path = args.path
+
   if vid_list is None:
     vid_list = find_unstab_vids(path)
     
