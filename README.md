@@ -76,20 +76,24 @@ ml-project-2-bouldering_team1
 
 ### Preprocessing
 
-* Stabilization is done using FFMPEG in conjunction with vidstab, we first compute the transformation of the camera with the following command :
-`ffmpeg -hide_banner -loglevel error -i f'{[vid_file]}' -vf f'vidstabdetect=result={[vid_file]}.trf' -f null -`. Afterwards we can stabilize the video with : `ffmpeg -hide_banner -loglevel error -i f'{[vid_file]}' -vf f'vidstabtransform=input={[vid_file]}.trf:smoothing=0' f'{[vid_file]}_STAB.MOV'`
+* Stabilization is done using FFMPEG in conjunction with vidstab, we first compute the transformation of the camera with the following command :  
+`ffmpeg -hide_banner -loglevel error -i f'{[vid_file]}' -vf f'vidstabdetect=result={[vid_file]}.trf' -f null -`   
+Afterwards we can stabilize the video with :   
+`ffmpeg -hide_banner -loglevel error -i f'{[vid_file]}' -vf f'vidstabtransform=input={[vid_file]}.trf:smoothing=0' f'{[vid_file]}_STAB.MOV'`
 
-* Cropping, we have to define the time interval we want to keep for each video in the excel sheet.
+* Cropping in time, we have to define the time interval we want to keep for each video in the excel sheet.
+
+* Cropping in space, we have to define part of the video we want to keep for each video in the excel sheet.
 
 * Screenshots, these will help us with the visualization later on. The time to take the screenshot can be defined in the excel sheet, otherwise it will be the last frame of the video.
 
 ### Pose estimation
 
-We used mediapipe for pose estimation as it work well and ran pretty fast during our testing.
+We used mediapipe for pose estimation as it works well and ran pretty fast during our testing.
 
 ### Move sequence
 
-For the computing the move sequence, we first check which extremity has not moved for more than a certain threshold during a short period of time, this allows us to roughly determine the coordinates of the holds. After that we run a clustering algorithm on this point cloud in order to get the centroids and to get a better idea of the holds' locations.
+For the computing the move sequence, we first check which extremity has not moved for more than a certain threshold during a short period of time, this allows us to roughly determine the coordinates of the holds. After that we run a clustering algorithm on this point cloud in order to get the centroids and to get a better idea of the holds' locations (here, by holds, we mean where the climber is either holding a hold or taking support on the wall). 
 
 ## Usage
 
