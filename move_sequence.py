@@ -160,8 +160,9 @@ def process_sheet(sheet, args):
       data =json.load(open(p_in))
       df = pd.json_normalize(data)
       logging.debug(f"Loaded dataframe for {v}...")
-
+      
       img = cv2.imread(v + '_POSE.mp4_SCREEN.jpg')
+      img_gif = img.copy()
 
       dict_centers = seq(df, extremities)
       logging.debug(f"Calculated centers for {v}...")
@@ -173,5 +174,5 @@ def process_sheet(sheet, args):
       logging.debug(f"Saved {p_out}.")
 
       if gif:
-        save_gif(img, dict_centers, f'{v}_MOVE_SEQ.gif')
+        save_gif(img_gif, dict_centers, f'{v}_MOVE_SEQ.gif')
         logging.debug(f"Saved {v}_MOVE_SEQ.gif")
