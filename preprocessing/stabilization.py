@@ -7,7 +7,7 @@ import subprocess
 def find_stab_vids(path, n_boulders):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-' + n_boulders + r']_.*$', up):
+    if re.search(r'boulder_[1-' + str(n_boulders) + r']_.*$', up):
       for inside in os.listdir(f'{path}{up}/'):
         if len(inside) > 0 and os.path.isdir(f'{path}{up}/{inside}'):
           for v in os.listdir(f'{path}{up}/{inside}'):
@@ -19,7 +19,7 @@ def find_stab_vids(path, n_boulders):
 def find_all_vids(path, n_boulders):
   res = []
   for up in os.listdir(path):
-    if re.search(r'boulder_[1-' + n_boulders + r']_.*$', up):
+    if re.search(r'boulder_[1-' + str(n_boulders) + r']_.*$', up):
       for inside in os.listdir(f'{path}{up}/'):
         if len(inside) > 0 and os.path.isdir(f'{path}{up}/{inside}'):
           for v in os.listdir(f'{path}{up}/{inside}'):
