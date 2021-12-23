@@ -1,4 +1,6 @@
 *.xlsx
 **.rtf
-*.DS_store
+**.DS_store
 **__pycache__**
+
+*videos*
