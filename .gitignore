@@ -1,4 +1,5 @@
 videos*
 *.xlsx
+**.rtf
 
 **__pycache__**
