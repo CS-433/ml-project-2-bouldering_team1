@@ -42,7 +42,7 @@ def main():
     prep = args.stab or args.crop or args.screen
     if args.no_prep and prep:
         logging.error("Argument --no_prep contradicts other arguments.")
-        
+
     elif not args.no_prep:
         logging.info("Preprocessing videos...")
         if args.stab:
@@ -53,11 +53,6 @@ def main():
             logging.info("Cropping videos...")
             run_all(crop_time, args, **std)
             logging.info("Cropping done !")
-        if args.screen:
-            logging.info("Taking screenshots...")
-            run_all(take_screen, args, **std)
-            logging.info("Screenshots done !")
-        logging.info("Preprocessing done !")
 
     
         # logging.info("Preprocessing skipped !")
@@ -68,6 +63,12 @@ def main():
         logging.info("Pose estimation done !")
     else:
         logging.info("Pose estimation skipped !")
+
+    if args.screen:
+        logging.info("Taking screenshots...")
+        run_all(take_screen, args, **std)
+        logging.info("Screenshots done !")
+    logging.info("Preprocessing done !")
 
     if args.move:
         logging.info("Move sequence generation...")
