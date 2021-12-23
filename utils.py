@@ -6,6 +6,7 @@ import gspread as gs
 import imageio
 import numpy as np
 import pandas as pd
+import mediapipe as mp
 
 from numpy.core.numeric import count_nonzero
 
@@ -37,6 +38,10 @@ def get_sheet(i, path=None):
         df['Folder'] = df['Folder'].astype('string')
         df['File'] = df['File'].astype('string')
         df['Boulder'] = df['Boulder'].astype('string')
+        df['time_screenshot'] = df['time_screenshot'].astype('string')
+        df['time_start'] = df['time_start'].astype('string')
+        df['time_end'] = df['time_end'].astype('string')
+        
     return df
 
 def run_all(func, args, table_path=None, n_sheet=1):
@@ -185,7 +190,7 @@ def save_gif(img, dict_centers, p_out):
           writer.append_data(rgb_frame)
           logging.debug(f"Adding frame {idx+1} to GIF for {p_out}: ")
 
-def landmark_to_dict(results):
+def landmark_to_dict(mp_pose, results):
   #To output landmark object to a dict to be then outputed as json file
   dict_ = { "LEFT_FOOT_INDEX": {"x": results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_FOOT_INDEX].x,
                                 "y": results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_FOOT_INDEX].y,

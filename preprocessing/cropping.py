@@ -19,8 +19,8 @@ def crop_time(df, args):
     elif(vid.time_start != '-1' and vid.time_end == '-1'):
       command = ['ffmpeg', '-y', '-ss', vid.time_start, '-i', p_in, '-c', 'copy', p_out]
       res = subprocess.run(command)
-    else:
-      command = ['ffmpeg', '-y', '-i', p_in, '-c', 'copy', p_out]
-      res = subprocess.run(command)
+    # else:
+    #   command = ['ffmpeg', '-y', '-i', p_in, '-c', 'copy', p_out]
+    #   res = subprocess.run(command)
 
     logging.debug(res)

@@ -14,7 +14,7 @@ def cli():
     parser.add_argument('--crop', help='to crop the videos in time', action='store_true')
     parser.add_argument('--screen', help='to take the screenshots of the videos', action='store_true')
     parser.add_argument('--pose', help='to estimate the pose in the videos', action='store_true')
-    parser.add_argument('--output_video', help='to output the videos with the pose estimation', action='store_true')
+    parser.add_argument('--output_video', help='to output the videos with the pose estimation', action='store_true', default=True)
     parser.add_argument('--move', help='to compute the move sequence from the videos', action='store_true')
     parser.add_argument('--gif', help='to save the move sequence as a GIF', action='store_true')
     parser.add_argument('--table_path', help='path of excel file with all the videos', default='boulder_problems.xlsx')

@@ -46,7 +46,7 @@ def estimate_pose(df, args):
         if not results.pose_landmarks:
           continue
 
-        landmark = landmark_to_dict(results)
+        landmark = landmark_to_dict(mp_pose, results)
         data.append(landmark)
         
         if output_video:
