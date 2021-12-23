@@ -34,6 +34,9 @@ def get_sheet(i, path=None):
     # Without google colab
     else:
         df = pd.read_excel(path, sheet_name=i)
+        df['Folder'] = df['Folder'].astype('string')
+        df['File'] = df['File'].astype('string')
+        df['Boulder'] = df['Boulder'].astype('string')
     return df
 
 def run_all(func, args, table_path=None, n_sheet=1):

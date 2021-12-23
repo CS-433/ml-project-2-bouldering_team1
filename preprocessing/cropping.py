@@ -1,7 +1,8 @@
 import logging
 import subprocess
 
-def crop_time(df, path='videos/'):
+def crop_time(df, args):
+  path = args.path
   for index, vid in df.iterrows():
     p_in = path + vid.Folder + vid.File
     _dir = path + vid.Folder
