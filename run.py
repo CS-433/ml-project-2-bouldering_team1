@@ -50,7 +50,7 @@ def main():
             logging.info("Stabilization done !")
         if args.crop:
             logging.info("Cropping videos...")
-            run_all(crop_time, **std)
+            run_all(crop_time, args, **std)
             logging.info("Cropping done !")
         if args.screen:
             logging.info("Taking screenshots...")

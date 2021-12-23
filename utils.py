@@ -38,7 +38,7 @@ def get_sheet(i, path=None):
 
 def run_all(func, args, table_path=None, n_sheet=1):
   for i in range(n_sheet):
-    df = get_sheet(i, table_path) 
+    df = get_sheet(i, table_path)
     func(df, args)
 
 def coord(height, width, side_h, frac_h, side_w, frac_w):
@@ -183,6 +183,7 @@ def save_gif(img, dict_centers, p_out):
           logging.debug(f"Adding frame {idx+1} to GIF for {p_out}: ")
 
 def landmark_to_dict(results):
+  #To output landmark object to a dict to be then outputed as json file
   dict_ = { "LEFT_FOOT_INDEX": {"x": results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_FOOT_INDEX].x,
                                 "y": results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_FOOT_INDEX].y,
                                 "v": results.pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_FOOT_INDEX].visibility},
