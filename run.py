@@ -20,6 +20,7 @@ def cli():
     parser.add_argument('--table_path', help='path of excel file with all the videos', default='boulder_problems.xlsx')
     parser.add_argument('--n_sheet', help='set the number of sheets in the given table', default=1)
     parser.add_argument('--path', help='path of all the videos', default='videos/')
+    parser.add_argument('--n_boulders', help='set the number of boulders in the given table', default=1)
     parser.add_argument('--normal_screens', help='to grab screenshots on the non mediapipe videos, defaults to False', action='store_true', default=False)
     parser.add_argument('--redo_screens', help='to rerun the screengrabing on all videos', action='store_true')
     parser.add_argument('--redo_moves', help='to rerun the move sequence computations on all videos', action='store_true')
@@ -44,7 +45,7 @@ def main():
         logging.info("Preprocessing videos...")
         if args.stab:
             logging.info("Stabilizing videos...")
-            stabilize()
+            stabilize(args)
             logging.info("Stabilization done !")
         if args.crop:
             logging.info("Cropping videos...")
