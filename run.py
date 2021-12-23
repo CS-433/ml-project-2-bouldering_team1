@@ -54,9 +54,6 @@ def main():
             run_all(crop_time, args, **std)
             logging.info("Cropping done !")
 
-    
-        # logging.info("Preprocessing skipped !")
-
     if args.pose:
         logging.info("Beginning pose estimation...")
         run_all(estimate_pose, args, **std)
