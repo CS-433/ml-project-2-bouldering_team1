@@ -161,7 +161,7 @@ def process_sheet(sheet, args):
       df = pd.json_normalize(data)
       logging.debug(f"Loaded dataframe for {v}...")
 
-      img = cv2.imread(v + '_SCREEN.jpg')
+      img = cv2.imread(v + '_POSE.mp4_SCREEN.jpg')
 
       dict_centers = seq(df, extremities)
       logging.debug(f"Calculated centers for {v}...")
