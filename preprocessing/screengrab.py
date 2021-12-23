@@ -8,7 +8,10 @@ def take_screen(df, args):
   path = args.path
 
   for index, vid in df.iterrows():
-    p_in = path + vid.Folder + vid.File
+    if mediapipe:
+      p_in = path + vid.Folder + vid.File + '_POSE.mp4'
+    else:
+      p_in = path + vid.Folder + vid.File
     
     if not os.path.isfile(f'{p_in}_SCREEN.jpg'):
       if vid.time_screenshot != '' and not redo:
