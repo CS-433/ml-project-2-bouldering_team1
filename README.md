@@ -8,12 +8,18 @@ We were pretty impressed with our results, when the climber is fully in the fram
 
 ## Prerequisites
 
+To install the following dependencies, you can run `pip3 install -r requirements.txt` : 
+
 * `python=~3.8` 
 * `numpy`
+* `pandas`
 * `ffmpeg` with `vidstab` to stabilize the videos.
 * `mediapipe` to estimate the climbers' poses.
-* `scikit-learn` to compute the clusters for the holds.
 * `imageio` for generating the GIF visualization.
+* `gspread` for the google drive integration
+* `opencv-python` for the visualization.
+* `openpyxl` for the xlsx import.
+* `scikit-learn` to compute the clusters for the holds.
 
 ## File structure
 
