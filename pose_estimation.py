@@ -1,4 +1,4 @@
-from .utils import get_sheet, landmark_to_dict, crop_image, coord
+from utils import get_sheet, landmark_to_dict, crop_image, coord
 
 import json
 import logging
@@ -6,13 +6,16 @@ import logging
 import cv2
 import mediapipe as mp
 
-def estimate_pose(df, output_video=True):
+def estimate_pose(df, args):
+  output_video = args.output_video
+  path = args.path
+
   mp_pose = mp.solutions.pose
   mp_drawing = mp.solutions.drawing_utils 
   mp_drawing_styles = mp.solutions.drawing_styles
 
   for index, vid in df.iterrows():
-    cap = cv2.VideoCapture('/content/drive/MyDrive/ML_boulder/videos/' + vid.Folder + vid.File)
+    cap = cv2.VideoCapture(path + vid.Folder + vid.File)
     frame_width = int(cap.get(3))
     frame_height = int(cap.get(4))
 
@@ -23,7 +26,7 @@ def estimate_pose(df, output_video=True):
     data=[]
 
     if output_video:
-      out = cv2.VideoWriter('/content/drive/MyDrive/ML_boulder/videos/' + vid.Folder + vid.File + '_POSE.mp4', cv2.VideoWriter_fourcc(*'MP4V'), 30, (width, height))
+      out = cv2.VideoWriter(path + vid.Folder + vid.File + '_POSE.mp4', cv2.VideoWriter_fourcc(*'MP4V'), 30, (width, height))
 
     with mp_pose.Pose() as pose:
       while True:
@@ -56,7 +59,7 @@ def estimate_pose(df, output_video=True):
           
           out.write(annotated_image)
 
-    with open('/content/drive/MyDrive/ML_boulder/videos/' + vid.Folder + vid.File + '_POSE.json', 'w') as write_file:
+    with open(path + vid.Folder + vid.File + '_POSE.json', 'w') as write_file:
       json.dump(data, write_file)
 
     if output_video:

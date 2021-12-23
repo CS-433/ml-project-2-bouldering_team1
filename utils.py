@@ -1,6 +1,7 @@
 import copy
 import logging
 
+import cv2
 import gspread as gs
 import imageio
 import numpy as np
@@ -8,7 +9,7 @@ import pandas as pd
 
 from numpy.core.numeric import count_nonzero
 
-NUMBER_OF_SHEETS = 5
+NUMBER_OF_SHEETS = 1
 
 left_hand = ["LEFT_THUMB.x", "LEFT_INDEX.x", "LEFT_PINKY.x",  "LEFT_WRIST.x", "LEFT_THUMB.y", "LEFT_INDEX.y", "LEFT_PINKY.y",  "LEFT_WRIST.y", "LEFT_THUMB.v", "LEFT_INDEX.v", "LEFT_PINKY.v",  "LEFT_WRIST.v"]
 right_hand = ["RIGHT_THUMB.x", "RIGHT_INDEX.x", "RIGHT_PINKY.x",  "RIGHT_WRIST.x", "RIGHT_THUMB.y", "RIGHT_INDEX.y", "RIGHT_PINKY.y",  "RIGHT_WRIST.y", "RIGHT_THUMB.v", "RIGHT_INDEX.v", "RIGHT_PINKY.v",  "RIGHT_WRIST.v"]
@@ -32,15 +33,13 @@ def get_sheet(i, path=None):
         df = df[1:]
     # Without google colab
     else:
-        df= pd.read_excel(path, sheet_name=i)
-        df.columns = df.iloc[0] 
-        df = df[1:]
+        df = pd.read_excel(path, sheet_name=i)
     return df
 
-def run_all(func, path=None, **kwargs):
-  for i in range(NUMBER_OF_SHEETS):
-    df = get_sheet(i, path) 
-    func(df, kwargs)
+def run_all(func, args, table_path=None, n_sheet=1):
+  for i in range(n_sheet):
+    df = get_sheet(i, table_path) 
+    func(df, args)
 
 def coord(height, width, side_h, frac_h, side_w, frac_w):
   frac_h = frac_h / 100
@@ -137,6 +136,37 @@ def create_gif_arrow(img, centers):
     timeframe.append(move[1])
 
   return frames, timeframe
+
+def add_legend(img, colors, members):
+  text_pos = [(20, 30), (20, 80), (20, 130), (20, 180)]
+  for i in range(4):
+    cv2.putText(img, members[i], text_pos[i], cv2.FONT_HERSHEY_SIMPLEX, 0.9, colors[members[i]], 3)
+  return img
+
+def draw_arrow(img, last_move, color):
+  size = 30
+  thickness = 4
+
+  x1 = int(last_move[0][0][0])
+  y1 = int(last_move[0][0][1] - size)
+
+  x2 = int(last_move[1][0][0])
+  y2 = int(last_move[1][0][1] + size)
+
+  cv2.arrowedLine(img, (x1, y1), (x2, y2), color, thickness)
+
+  return img
+
+def draw_last_moves(img, last_move, color):
+  size = 30
+  thickness = 4
+  for id, elem in  enumerate(last_move):
+    x_bg = int(elem[0][0] - size)
+    y_bg = int(elem[0][1] - size)
+    x_ed = int(elem[0][0] + size)
+    y_ed = int(elem[0][1] + size)
+    cv2.rectangle(img, (x_bg, y_bg), (x_ed, y_ed), color, thickness)
+  return img
 
 def save_gif(img, dict_centers, p_out):
   frames, timeframe = create_gif_arrow(img, dict_centers)

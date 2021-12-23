@@ -1,11 +1,14 @@
-from .utils import weighted_m, save_gif
+from utils import weighted_m, save_gif, extremities
 
+import json
 import logging
+import os
 
 from collections import defaultdict
 
 import cv2
 import numpy as np
+import pandas as pd
 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
@@ -109,13 +112,17 @@ def display_seq(img, centers):
   cv2.putText(img, "Right_foot", (20, 180), cv2.FONT_HERSHEY_SIMPLEX, 0.9, right_foot_color, 3)
 
 
-def process_sheet(sheet, redo=False, gif=False):
+def process_sheet(sheet, args):
+  redo = args.redo_moves
+  gif = args.gif
+  path = args.path
+
   for index, vid in sheet.iterrows():
     v = path + vid.Folder + vid.File
     p_in = v + '_POSE.json'
     p_out = v + '_MOVE_SEQ.jpg'
 
-    if not os.path.isfile(p_out) or redo:
+    if not os.path.isfile(p_out) or redo or gif:
       logging.debug(f"Calculating move sequence for {v}...")
 
       data =json.load(open(p_in))
@@ -135,3 +142,4 @@ def process_sheet(sheet, redo=False, gif=False):
 
       if gif:
         save_gif(img, dict_centers, f'{v}_MOVE_SEQ.gif')
+        logging.debug(f"Saved {v}_MOVE_SEQ.gif")

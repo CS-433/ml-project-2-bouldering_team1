@@ -1,15 +1,13 @@
-from ..utils import get_sheet
-
 import logging
 import subprocess
 
-def crop_time(df):
+def crop_time(df, path='videos/'):
   for index, vid in df.iterrows():
-    p_in = 'ml/good/' + vid.Folder + vid.File
-    dir = 'videos/' + vid.Folder
-    p_out = dir + vid.File
+    p_in = path + vid.Folder + vid.File
+    _dir = path + vid.Folder
+    p_out = _dir + vid.File
 
-    res = subprocess.run(['mkdir', '-p', dir])
+    res = subprocess.run(['mkdir', '-p', _dir])
 
     if(vid.time_start != '-1' and vid.time_end != '-1'):
       command = ['ffmpeg', '-y', '-ss', vid.time_start, '-i', p_in,  '-to', vid.time_end, '-c', 'copy', p_out]

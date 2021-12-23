@@ -70,7 +70,9 @@ For the computing the move sequence, we first check which extremity has not move
 
 ## Usage
 
-* `--path` the path of the excel sheet.
+* `--table_path` the path of the excel file, default is `boulder_problems`.
+* `--n_sheet` number of sheets to process in the excel file, default is 1.
+* `--path` the path of the climbing videos (the top folder, in our structure it would be `videos/`).
 * `--no_prep` skips all the preprocessing steps (stabilization, cropping and screengrabing).
 * `--stab` to stabilize all the unstabilized videos.
 * `--crop` to crop the time of the videos (according to the numbers in the excel sheet).
@@ -96,8 +98,12 @@ After running everything, for each video we will end up having :
 * `[vid_file]_STAB.MOV_POSE.mp4` 
 * `[vid_file]_STAB.MOV_MOVE_SEQ.jpg`
 
-## Example command 
+## Example commands
 
-The command `python3 run.py --stab --crop --screen --pose --move` gives the following results :
+The command `python3 -m run --stab --crop --screen --pose --move` gives the following results :
 
 ![Example result](docs/res.jpg)
+
+And the command `python3 -m run --no_prep --move --gif`, ran with a preprocessed dataset, yields the following kind of GIF :
+
+![Example GIF result](docs/res.gif)

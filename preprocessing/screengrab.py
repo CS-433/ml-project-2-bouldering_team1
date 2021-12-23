@@ -1,14 +1,15 @@
-from ..utils import get_sheet
-
 import logging
 import subprocess
 
-def take_screen(df, mediapipe=True, redo=False):
+def take_screen(df, args):
+  mediapipe = not args.normal_screens
+  redo = args.redo_screens
+  path = args.path
   for index, vid in df.iterrows():
     if mediapipe:
-      p_in = 'videos/' + vid.Folder + vid.File + '_POSE.mp4'
+      p_in = path + vid.Folder + vid.File + '_POSE.mp4'
     else:
-      p_in = 'videos/' + vid.Folder + vid.File
+      p_in = path + vid.Folder + vid.File
 
     if not os.path.isfile(f'{p_in}_SCREEN.jpg'):
       if vid.time_screenshot != '' and not redo:
