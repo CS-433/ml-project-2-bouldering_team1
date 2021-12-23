@@ -42,6 +42,7 @@ def main():
     prep = args.stab or args.crop or args.screen
     if args.no_prep and prep:
         logging.error("Argument --no_prep contradicts other arguments.")
+        
     elif not args.no_prep:
         logging.info("Preprocessing videos...")
         if args.stab:
@@ -58,22 +59,22 @@ def main():
             logging.info("Screenshots done !")
         logging.info("Preprocessing done !")
 
+    
+        # logging.info("Preprocessing skipped !")
+
+    if args.pose:
+        logging.info("Beginning pose estimation...")
+        run_all(estimate_pose, args, **std)
+        logging.info("Pose estimation done !")
     else:
-        logging.info("Preprocessing skipped !")
+        logging.info("Pose estimation skipped !")
 
-        if args.pose:
-            logging.info("Beginning pose estimation...")
-            run_all(estimate_pose, args, **std)
-            logging.info("Pose estimation done !")
-        else:
-            logging.info("Pose estimation skipped !")
-
-        if args.move:
-            logging.info("Move sequence generation...")
-            run_all(process_sheet, args, **std)
-            logging.info("Move sequence generation done !")
-        else:
-            logging.info("Move sequence generation skipped !")
+    if args.move:
+        logging.info("Move sequence generation...")
+        run_all(process_sheet, args, **std)
+        logging.info("Move sequence generation done !")
+    else:
+        logging.info("Move sequence generation skipped !")
 
     logging.info("Finished.")
 
