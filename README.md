@@ -43,15 +43,32 @@ ml-project-2-bouldering_team1
     |
     |
     └───boulder_1_01
-    |   |   [vid_file]
-    |   |   [vid_file]
-    |   |   ...
+    |    |
+    |    |
+    |    └───fail
+    |    |   |   [vid_file]
+    |    |   |   [vid_file]
+    |    |   |   ...
+    |    |
+    |    |
+    |    └───success
+    |        |   [vid_file]
+    |        |   [vid_file]
+    |        |   ...
     |
     └───boulder_1_02
-    |   |   [vid_file]
-    |   |   [vid_file]
-    |   |   ...
-    |
+    |    |
+    |    |
+    |    └───fail
+    |    |   |   [vid_file]
+    |    |   |   [vid_file]
+    |    |   |   ...
+    |    |
+    |    |
+    |    └───success
+    |        |   [vid_file]
+    |        |   [vid_file]
+    |        |   ...
     └───...
 ```
 
